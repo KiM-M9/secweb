@@ -105,7 +105,7 @@ The database returns the `administrator` row regardless of the password, and the
 
 ## Vulnerable vs. Secure Code (PHP Example)
 
-### ❌ Vulnerable Code
+### Vulnerable Code
 
 User input is concatenated directly into the SQL string — this is exactly what allows the attacks shown above.
 
@@ -125,9 +125,9 @@ if (mysqli_num_rows($result) > 0) {
 ?>
 ```
 
-> ⚠️ **Warning:** With input like `administrator'--`, this code lets an attacker log in without knowing the password.
+>  **Warning:** With input like `administrator'--`, this code lets an attacker log in without knowing the password.
 
-### ✅ Secure Code (Prepared Statements)
+###  Secure Code (Prepared Statements)
 
 The input is treated strictly as **data**, never as executable SQL code.
 
@@ -187,7 +187,7 @@ We'll go over each type, understand what it is, and apply hands-on examples in u
 | **Error Handling** | Never expose raw database error messages to the user — they can leak schema details useful to an attacker. |
 | **Regular Security Testing** | Use tools like Burp Suite, sqlmap, or manual code review to catch injection points before attackers do. |
 
-> ⚠️ **Important:** Prepared statements are the primary and most reliable defense. All other techniques are complementary layers of defense-in-depth, not substitutes.
+
 
 ---
 
