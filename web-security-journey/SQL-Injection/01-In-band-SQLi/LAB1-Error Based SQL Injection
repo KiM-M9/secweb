@@ -29,6 +29,7 @@ The results are not displayed to the user, but any SQL error is shown on the pag
 The password is a random string (like `k29xPa0z`), not a number. Therefore, the database fails the type conversion (`CAST`) and throws an error. However, most databases (especially Oracle and MSSQL) return an error message that explicitly includes the value that failed to convert — which means the password itself!
 The resulting error message looks something like this:
 > Conversion failed when converting the varchar value 'k29xPa0z' to data type int.
+
 ### Result
 Since the application displays SQL errors on the page (Visible errors), you literally see the administrator's password inside the error message — without the application ever intending to show it to you.
 
