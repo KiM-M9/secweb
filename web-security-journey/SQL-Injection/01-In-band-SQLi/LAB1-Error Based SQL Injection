@@ -1,1 +1,14 @@
+### Description
 
+This lab contains a **SQL injection** vulnerability. The application uses a tracking cookie for analytics purposes and executes a SQL query containing the value of the submitted cookie. 
+While the query results are not returned directly to the user, any **SQL errors** are displayed on the page.
+The database contains an additional table named `users` with two columns:
+* `username`
+* `password`
+---
+### Objective
+Find a way to **leak the password of the `administrator` user** by exploiting the displayed error messages, then log in to their account to solve the lab.
+---
+### Steps:
+
+1-Modify the `TrackingId` cookie value and send a request containing a single quote `'` to see if a SQL error appears.
