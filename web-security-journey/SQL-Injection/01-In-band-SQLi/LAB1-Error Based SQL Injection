@@ -12,5 +12,24 @@ Find a way to **leak the password of the `administrator` user** by exploiting th
 ### Steps:
 
 1. Modify the `TrackingId` cookie value and send a request containing a single quote `'` to see if a SQL error appears.
+2. Use error-based extraction techniques via a function like `CAST()` to force the database to display data within the error message:
+```sql
+' AND 1=CAST((SELECT password FROM users WHERE username='administrator') AS int)--
+```
+### What happens here?
+The application executes a SQL query that looks something like this:
+```sql
+SELECT * FROM tracking WHERE id = 'TrackingId_value'
+```
+The results are not displayed to the user, but any SQL error is shown on the page. Therefore, the goal is to force the database to generate an error that contains the desired data within its error message.
+* `(SELECT password FROM users WHERE username='administrator')` — A subquery that actually retrieves the administrator's password as a string.
+* `CAST(... AS int)` — This is the "trap": it attempts to convert that string (e.g., `k29xPa0z`) into an integer.
 
-![Step 1](../../images/step1.png)
+### Why does an error occur exactly?
+The password is a random string (like `k29xPa0z`), not a number. Therefore, the database fails the type conversion (`CAST`) and throws an error. However, most databases (especially Oracle and MSSQL) return an error message that explicitly includes the value that failed to convert — which means the password itself!
+The resulting error message looks something like this:
+> Conversion failed when converting the varchar value 'k29xPa0z' to data type int.
+### Result
+Since the application displays SQL errors on the page (Visible errors), you literally see the administrator's password inside the error message — without the application ever intending to show it to you.
+
+3.Log in using `administrator` and the extracted password.
