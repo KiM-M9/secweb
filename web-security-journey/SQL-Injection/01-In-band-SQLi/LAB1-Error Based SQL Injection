@@ -12,4 +12,4 @@ Find a way to **leak the password of the `administrator` user** by exploiting th
 ### Steps:
 
 1-Modify the `TrackingId` cookie value and send a request containing a single quote `'` to see if a SQL error appears.
-<img src="/images/step1.png" width="500">
+![Step 1](/images/step1.png)
